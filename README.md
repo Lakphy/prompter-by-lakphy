@@ -1,6 +1,6 @@
-# Prompter
+# Manage My Prompts
 
-A Visual Studio Code extension for managing your prompts efficiently.
+A Visual Studio Code extension for managing and copying your prompts efficiently.
 
 ## Features
 
