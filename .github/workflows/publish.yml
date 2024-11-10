@@ -34,7 +34,9 @@ jobs:
           git config --local user.email "bot@lakphy.me"
           git config --local user.name "bot"
           git tag -a v${{ steps.package-version.outputs.current-version}} -m "Release v${{ steps.package-version.outputs.current-version}}"
-          git push origin v${{ steps.package-version.outputs.current-version}}
+          git push https://${GITHUB_TOKEN}@github.com/${{ github.repository }}.git v${{ steps.package-version.outputs.current-version}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install dependencies
         run: pnpm install
