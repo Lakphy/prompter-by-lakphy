@@ -1,8 +1,8 @@
 {
   "name": "prompter-by-lakphy",
-  "displayName": "prompter-by-lakphy",
+  "displayName": "Manage My Prompts",
   "description": "prompt manage tool",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "lakphy",
   "engines": {
     "vscode": "^1.86.0"
@@ -18,44 +18,44 @@
       "explorer": [
         {
           "id": "promptsList",
-          "name": "Prompts 列表"
+          "name": "Prompts"
         }
       ]
     },
     "commands": [
       {
         "command": "prompter-by-lakphy.addPrompt",
-        "title": "添加 Prompt",
+        "title": "New Prompt",
         "icon": "$(add)"
       },
       {
         "command": "prompter-by-lakphy.editPrompt",
-        "title": "编辑 Prompt",
+        "title": "Edit Prompt",
         "icon": "$(edit)"
       },
       {
         "command": "prompter-by-lakphy.deletePrompt",
-        "title": "删除 Prompt",
+        "title": "Delete Prompt",
         "icon": "$(trash)"
       },
       {
         "command": "prompter-by-lakphy.copyPrompt",
-        "title": "复制 Prompt",
+        "title": "Copy Prompt",
         "icon": "$(copy)"
       },
       {
         "command": "prompter-by-lakphy.copyAllPrompts",
-        "title": "复制所有 Prompts",
+        "title": "Copy All Prompts",
         "icon": "$(copy)"
       },
       {
         "command": "prompter-by-lakphy.exportPrompts",
-        "title": "导出所有 Prompts 到剪贴板",
+        "title": "Export All Prompts to Clipboard",
         "icon": "$(export)"
       },
       {
         "command": "prompter-by-lakphy.importPrompts",
-        "title": "从剪贴板导入 Prompts",
+        "title": "Import Prompts from Clipboard",
         "icon": "$(import)"
       }
     ],
