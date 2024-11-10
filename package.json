@@ -111,7 +111,8 @@
     "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
     "lint": "eslint src --ext ts",
     "test": "vscode-test",
-    "publish:vscode": "pnpm vsce publish --no-dependencies"
+    "publish:vscode": "pnpm vsce publish --no-dependencies",
+    "publish:login": "pnpm vsce login lakphy"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.9",
