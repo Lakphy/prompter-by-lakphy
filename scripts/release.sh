@@ -8,7 +8,7 @@ VERSION=$(node -p "require('./package.json').version")
 
 # 提交变更
 git add .
-git commit -m "feat: release ${VERSION}"
+git commit -m "release: v${VERSION}"
 
 # 创建标签
 git tag "v${VERSION}"
@@ -17,4 +17,4 @@ git tag "v${VERSION}"
 git push origin main
 git push origin "v${VERSION}"
 
-echo "✨ Released version ${VERSION}"
+echo "✨ Released version v${VERSION}"
