@@ -1,6 +1,6 @@
 {
   "name": "prompter-by-lakphy",
-  "displayName": "@lakphy/prompter",
+  "displayName": "prompter-by-lakphy",
   "description": "prompt manage tool",
   "version": "0.0.1",
   "engines": {
@@ -12,12 +12,92 @@
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
+    "views": {
+      "explorer": [
+        {
+          "id": "promptsList",
+          "name": "Prompts 列表"
+        }
+      ]
+    },
     "commands": [
       {
-        "command": "prompter-by-lakphy.helloWorld",
-        "title": "Hello World"
+        "command": "prompter-by-lakphy.addPrompt",
+        "title": "添加 Prompt",
+        "icon": "$(add)"
+      },
+      {
+        "command": "prompter-by-lakphy.editPrompt",
+        "title": "编辑 Prompt",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "prompter-by-lakphy.deletePrompt",
+        "title": "删除 Prompt",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "prompter-by-lakphy.copyPrompt",
+        "title": "复制 Prompt",
+        "icon": "$(copy)"
+      },
+      {
+        "command": "prompter-by-lakphy.copyAllPrompts",
+        "title": "复制所有 Prompts",
+        "icon": "$(copy)"
+      },
+      {
+        "command": "prompter-by-lakphy.exportPrompts",
+        "title": "导出所有 Prompts 到剪贴板",
+        "icon": "$(export)"
+      },
+      {
+        "command": "prompter-by-lakphy.importPrompts",
+        "title": "从剪贴板导入 Prompts",
+        "icon": "$(import)"
       }
-    ]
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "prompter-by-lakphy.addPrompt",
+          "when": "view == promptsList",
+          "group": "navigation"
+        },
+        {
+          "command": "prompter-by-lakphy.copyAllPrompts",
+          "when": "view == promptsList",
+          "group": "1_more"
+        },
+        {
+          "command": "prompter-by-lakphy.exportPrompts",
+          "when": "view == promptsList",
+          "group": "1_more"
+        },
+        {
+          "command": "prompter-by-lakphy.importPrompts",
+          "when": "view == promptsList",
+          "group": "1_more"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "prompter-by-lakphy.editPrompt",
+          "when": "view == promptsList && viewItem == prompt",
+          "group": "inline"
+        },
+        {
+          "command": "prompter-by-lakphy.deletePrompt",
+          "when": "view == promptsList && viewItem == prompt",
+          "group": "inline"
+        },
+        {
+          "command": "prompter-by-lakphy.copyPrompt",
+          "when": "view == promptsList && viewItem == prompt",
+          "group": "inline"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run package",
