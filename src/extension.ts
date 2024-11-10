@@ -21,14 +21,14 @@ export function activate(context: vscode.ExtensionContext) {
       "prompter-by-lakphy.addPrompt",
       async () => {
         const title = await vscode.window.showInputBox({
-          placeHolder: "输入 Prompt 标题",
-          prompt: "请输入 Prompt 的标题",
+          placeHolder: "Enter Prompt Title",
+          prompt: "Please enter the title of the prompt",
         });
 
         if (title) {
           const content = await vscode.window.showInputBox({
-            placeHolder: "输入 Prompt 内容",
-            prompt: "请输入 Prompt 的内容",
+            placeHolder: "Enter Prompt Content",
+            prompt: "Please enter the content of the prompt",
           });
 
           if (content) {
@@ -46,8 +46,8 @@ export function activate(context: vscode.ExtensionContext) {
       async (prompt: Prompt) => {
         const content = await vscode.window.showInputBox({
           value: prompt.content,
-          placeHolder: "编辑 Prompt 内容",
-          prompt: "请编辑 Prompt 的内容",
+          placeHolder: "Edit Prompt Content",
+          prompt: "Please edit the content of the prompt",
         });
 
         if (content !== undefined) {
@@ -63,12 +63,12 @@ export function activate(context: vscode.ExtensionContext) {
       "prompter-by-lakphy.deletePrompt",
       async (prompt: Prompt) => {
         const confirm = await vscode.window.showWarningMessage(
-          `确定要删除 "${prompt.title}" 吗？`,
+          `Are you sure you want to delete "${prompt.title}"?`,
           { modal: true },
-          "确定"
+          "Yes"
         );
 
-        if (confirm === "确定") {
+        if (confirm === "Yes") {
           promptsProvider.deletePrompt(prompt.id);
         }
       }
@@ -82,7 +82,7 @@ export function activate(context: vscode.ExtensionContext) {
       (prompt: Prompt) => {
         vscode.env.clipboard.writeText(prompt.content);
         vscode.window.showInformationMessage(
-          `已复制 "${prompt.title}" 的内容到剪贴板`
+          `Copied "${prompt.title}" content to clipboard`
         );
       }
     )
@@ -96,7 +96,7 @@ export function activate(context: vscode.ExtensionContext) {
         .map((prompt) => `${prompt.title}:\n${prompt.content}\n`)
         .join("\n---\n\n");
       vscode.env.clipboard.writeText(promptsText);
-      vscode.window.showInformationMessage("已复制所有 Prompts 到剪贴板");
+      vscode.window.showInformationMessage("Copied all prompts to clipboard");
     })
   );
 

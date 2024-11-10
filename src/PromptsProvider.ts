@@ -68,7 +68,7 @@ export class PromptsProvider implements vscode.TreeDataProvider<Prompt> {
     const prompts = this.getPrompts();
     const exportData = JSON.stringify(prompts, null, 2);
     await vscode.env.clipboard.writeText(exportData);
-    vscode.window.showInformationMessage("已成功导出 Prompts 到剪贴板");
+    vscode.window.showInformationMessage("Successfully exported to clipboard.");
   }
 
   async importFromClipboard() {
@@ -85,7 +85,7 @@ export class PromptsProvider implements vscode.TreeDataProvider<Prompt> {
             typeof p.content === "string"
         )
       ) {
-        throw new Error("无效的数据格式");
+        throw new Error("Invalid data format");
       }
 
       const existingPrompts = this.getPrompts();
@@ -93,10 +93,12 @@ export class PromptsProvider implements vscode.TreeDataProvider<Prompt> {
 
       this.savePrompts(mergedPrompts);
       vscode.window.showInformationMessage(
-        `成功导入 ${importedPrompts.length} 个 Prompts`
+        `Successfully imported ${importedPrompts.length} prompts`
       );
     } catch (error) {
-      vscode.window.showErrorMessage("导入失败：剪贴板中的数据格式无效");
+      vscode.window.showErrorMessage(
+        "Import failed: Invalid data format in clipboard"
+      );
     }
   }
 }
