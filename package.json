@@ -2,7 +2,7 @@
   "name": "prompter-by-lakphy",
   "displayName": "prompter-by-lakphy",
   "description": "prompt manage tool",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "lakphy",
   "engines": {
     "vscode": "^1.86.0"
