@@ -31,20 +31,15 @@ jobs:
 
       - name: Create Git tag
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          git config --local user.email "bot@lakphy.me"
+          git config --local user.name "bot"
           git tag -a v${{ steps.package-version.outputs.current-version}} -m "Release v${{ steps.package-version.outputs.current-version}}"
           git push origin v${{ steps.package-version.outputs.current-version}}
 
       - name: Install dependencies
         run: pnpm install
 
-      - name: Login to VSCode Marketplace
-        run: |
-          vsce login lakphy
-          ${{ secrets.VSCODE_TOKEN }}
-
       - name: Publish to VSCode Marketplace
         run: pnpm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          VSCE_PAT: ${{ secrets.VSCODE_TOKEN }}
