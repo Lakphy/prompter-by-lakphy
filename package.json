@@ -2,7 +2,7 @@
   "name": "prompter-by-lakphy",
   "displayName": "Manage My Prompts",
   "description": "prompt manage tool",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "lakphy",
   "engines": {
     "vscode": "^1.86.0"
@@ -112,7 +112,8 @@
     "lint": "eslint src --ext ts",
     "test": "vscode-test",
     "publish:vscode": "pnpm vsce publish --no-dependencies",
-    "publish:login": "pnpm vsce login lakphy"
+    "publish:login": "pnpm vsce login lakphy",
+    "release": "./scripts/release.sh"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.9",
