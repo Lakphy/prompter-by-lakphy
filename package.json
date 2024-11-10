@@ -113,7 +113,7 @@
     "test": "vscode-test",
     "publish:vscode": "pnpm vsce publish --no-dependencies",
     "publish:login": "pnpm vsce login lakphy",
-    "release": "./scripts/release.sh"
+    "release": "sh ./scripts/release.sh"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.9",
