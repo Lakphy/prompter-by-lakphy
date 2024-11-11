@@ -20,12 +20,13 @@ export class PromptDomainProvider
   getTreeItem(prompt: PromptDomain | Prompt): vscode.TreeItem {
     const isDomain = !!(prompt as PromptDomain).children; // 是否为域
     const treeItem = new vscode.TreeItem(prompt.title);
-    treeItem.contextValue = prompt.id;
     if (isDomain) {
       treeItem.iconPath = new vscode.ThemeIcon("folder");
       if (prompt.id === "_GLOBAL") {
+        treeItem.contextValue = "global";
         treeItem.collapsibleState = vscode.TreeItemCollapsibleState.Expanded;
       } else {
+        treeItem.contextValue = "workspace";
         treeItem.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
         treeItem.tooltip = (prompt as PromptDomain).path;
       }
