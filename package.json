@@ -23,6 +23,10 @@
         {
           "id": "promptsList",
           "name": "Prompts"
+        },
+        {
+          "id": "PromptDomainList",
+          "name": "Prompts Board"
         }
       ]
     },
@@ -128,11 +132,14 @@
     "@typescript-eslint/parser": "^7.11.0",
     "@vscode/test-cli": "^0.0.9",
     "@vscode/test-electron": "^2.4.0",
+    "@vscode/vsce": "3.2.1",
     "eslint": "^8.57.0",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.5",
     "webpack": "^5.92.1",
-    "webpack-cli": "^5.1.4",
-    "@vscode/vsce": "3.2.1"
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "yaml": "^2.6.0"
   }
 }

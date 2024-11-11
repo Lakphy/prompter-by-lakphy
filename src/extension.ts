@@ -3,10 +3,25 @@
 import * as vscode from "vscode";
 import { PromptsProvider } from "./PromptsProvider";
 import { Prompt } from "./types";
+import { PromptDomainProvider } from "./PromptDomainProvider";
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+  // 初始化 Prompt 域提供者
+  const promptDomainProvider = new PromptDomainProvider(context.globalState);
+
+  // 注册 TreeView
+  const promptDomainTreeView = vscode.window.createTreeView(
+    "PromptDomainList",
+    {
+      treeDataProvider: promptDomainProvider,
+      showCollapseAll: true,
+    }
+  );
+
+  context.subscriptions.push(promptDomainTreeView);
+
   // 初始化 prompts 存储
   const promptsProvider = new PromptsProvider(context.globalState);
 
