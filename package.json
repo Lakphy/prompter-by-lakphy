@@ -65,6 +65,11 @@
         "command": "prompter-by-lakphy.importPrompts",
         "title": "Import Prompts from Clipboard",
         "icon": "$(import)"
+      },
+      {
+        "command": "prompter-by-lakphy.refresh",
+        "title": "Refresh",
+        "icon": "$(refresh)"
       }
     ],
     "menus": {
@@ -88,6 +93,11 @@
           "command": "prompter-by-lakphy.importPrompts",
           "when": "view == promptsList",
           "group": "1_more"
+        },
+        {
+          "command": "prompter-by-lakphy.refresh",
+          "when": "view == PromptDomainList",
+          "group": "navigation"
         }
       ],
       "view/item/context": [

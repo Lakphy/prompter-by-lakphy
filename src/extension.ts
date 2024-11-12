@@ -20,8 +20,27 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
+  // 注册添加 Prompt 域命令
+  context.subscriptions.push(
+    vscode.commands.registerCommand("prompter-by-lakphy.refresh", async () => {
+      // 展示一个loading提示
+      vscode.window.withProgress(
+        {
+          location: vscode.ProgressLocation.Notification,
+          title: "Refreshing prompts...",
+          cancellable: false,
+        },
+        async () => {
+          await promptDomainProvider.refresh();
+          vscode.window.showInformationMessage("Prompts refreshed");
+        }
+      );
+    })
+  );
+
   context.subscriptions.push(promptDomainTreeView);
 
+  /** ================================= */
   // 初始化 prompts 存储
   const promptsProvider = new PromptsProvider(context.globalState);
 

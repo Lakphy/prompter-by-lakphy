@@ -12,7 +12,10 @@ export class PromptDomainProvider
     PromptDomain | undefined | null | void
   > = this._onDidChangeTreeData.event;
 
-  constructor(private storage: vscode.Memento) {}
+  constructor(private storage: vscode.Memento) {
+    // 监听文件保存事件
+    vscode.workspace.onDidSaveTextDocument(this.onDocumentSaved, this);
+  }
 
   /**
    * 获取树形项内容
@@ -23,10 +26,10 @@ export class PromptDomainProvider
     if (isDomain) {
       treeItem.iconPath = new vscode.ThemeIcon("folder");
       if (prompt.id === "_GLOBAL") {
-        treeItem.contextValue = "global";
+        treeItem.contextValue = "domain_global";
         treeItem.collapsibleState = vscode.TreeItemCollapsibleState.Expanded;
       } else {
-        treeItem.contextValue = "workspace";
+        treeItem.contextValue = "domain_workspace";
         treeItem.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
         treeItem.tooltip = (prompt as PromptDomain).path;
       }
@@ -113,7 +116,7 @@ export class PromptDomainProvider
           try {
             const parsed = parse(yamlContent);
             if (typeof parsed === "object" && parsed && "name" in parsed) {
-              title = parsed.name as string;
+              title = `${parsed.name}` as string;
               pureContent = fileContent.slice(yamlMatch[0].length).trim();
             } else {
               continue;
@@ -156,5 +159,22 @@ export class PromptDomainProvider
     }
 
     return results;
+  }
+
+  /**
+   * 文件保存时触发更新 TreeView
+   * @param document
+   */
+  private onDocumentSaved(document: vscode.TextDocument) {
+    if (document.uri.fsPath.endsWith(".md")) {
+      this._onDidChangeTreeData.fire();
+    }
+  }
+
+  /**
+   * 刷新 TreeView
+   */
+  refresh(): void {
+    this._onDidChangeTreeData.fire();
   }
 }
