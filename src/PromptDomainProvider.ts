@@ -22,6 +22,7 @@ export class PromptDomainProvider
    */
   getTreeItem(prompt: PromptDomain | Prompt): vscode.TreeItem {
     const isDomain = !!(prompt as PromptDomain).children; // 是否为域
+    const isDomainItem = !!(prompt as Prompt).path; // 是否为域内项
     const treeItem = new vscode.TreeItem(prompt.title);
     if (isDomain) {
       treeItem.iconPath = new vscode.ThemeIcon("folder");
@@ -34,6 +35,11 @@ export class PromptDomainProvider
         treeItem.tooltip = (prompt as PromptDomain).path;
       }
     } else {
+      if (!isDomainItem) {
+        treeItem.contextValue = "domain_global_item";
+      } else {
+        treeItem.contextValue = "domain_workspace_item";
+      }
       treeItem.iconPath = new vscode.ThemeIcon("symbol-variable");
       treeItem.description = (prompt as Prompt).content;
       treeItem.tooltip = (prompt as Prompt).content;

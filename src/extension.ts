@@ -37,6 +37,20 @@ export function activate(context: vscode.ExtensionContext) {
       );
     })
   );
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "prompter-by-lakphy.openWorkspacePrompt",
+      async (prompt: Prompt) => {
+        // 在编辑器中打开 prompt.path 文件
+        if (prompt.path) {
+          const doc = await vscode.workspace.openTextDocument(prompt.path);
+          vscode.window.showTextDocument(doc);
+        } else {
+          vscode.window.showErrorMessage("Prompt path is undefined");
+        }
+      }
+    )
+  );
 
   context.subscriptions.push(promptDomainTreeView);
 

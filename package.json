@@ -70,6 +70,11 @@
         "command": "prompter-by-lakphy.refresh",
         "title": "Refresh",
         "icon": "$(refresh)"
+      },
+      {
+        "command": "prompter-by-lakphy.openWorkspacePrompt",
+        "title": "Open in Editor",
+        "icon": "$(file-code)"
       }
     ],
     "menus": {
@@ -114,6 +119,11 @@
         {
           "command": "prompter-by-lakphy.copyPrompt",
           "when": "view == promptsList && viewItem == prompt",
+          "group": "inline"
+        },
+        {
+          "command": "prompter-by-lakphy.openWorkspacePrompt",
+          "when": "view == PromptDomainList && viewItem == domain_workspace_item",
           "group": "inline"
         }
       ]
