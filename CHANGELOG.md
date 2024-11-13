@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.0.0
+
+### Major Changes
+
+- 6c4bb4c: refactor: support workspace prompts
+
 ## 0.0.6
 
 ### Patch Changes
