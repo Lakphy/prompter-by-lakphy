@@ -2,7 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 import { PromptsProvider } from "./PromptsProvider";
-import { Prompt } from "./types";
+import { Prompt, PromptDomain } from "./types";
 import { PromptDomainProvider } from "./PromptDomainProvider";
 
 // This method is called when your extension is activated
@@ -37,16 +37,38 @@ export function activate(context: vscode.ExtensionContext) {
       );
     })
   );
+  // 注册打开 Prompt 域命令
   context.subscriptions.push(
     vscode.commands.registerCommand(
       "prompter-by-lakphy.openWorkspacePrompt",
       async (prompt: Prompt) => {
         // 在编辑器中打开 prompt.path 文件
-        if (prompt.path) {
-          const doc = await vscode.workspace.openTextDocument(prompt.path);
-          vscode.window.showTextDocument(doc);
+        promptDomainProvider.openWorkspacePrompt(prompt.path);
+      }
+    )
+  );
+  // 注册复制 prompt 命令
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "prompter-by-lakphy.copyPrompt",
+      (prompt: Prompt) => {
+        vscode.env.clipboard.writeText(prompt.content);
+        vscode.window.showInformationMessage(
+          `Copied "${prompt.title}" content to clipboard`
+        );
+      }
+    )
+  );
+  // 注册添加 prompt 命令
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "prompter-by-lakphy.addPrompt",
+      async (prompt: PromptDomain) => {
+        const isGlobalFolder = (prompt as PromptDomain).id === "_GLOBAL"; // 是否为域内项
+        if (isGlobalFolder) {
+          await promptDomainProvider.userAddGlobalPrompt();
         } else {
-          vscode.window.showErrorMessage("Prompt path is undefined");
+          await promptDomainProvider.userAddWorkspacePrompt(prompt);
         }
       }
     )
@@ -62,30 +84,6 @@ export function activate(context: vscode.ExtensionContext) {
   const treeView = vscode.window.createTreeView("promptsList", {
     treeDataProvider: promptsProvider,
   });
-
-  // 注册添加 prompt 命令
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "prompter-by-lakphy.addPrompt",
-      async () => {
-        const title = await vscode.window.showInputBox({
-          placeHolder: "Enter Prompt Title",
-          prompt: "Please enter the title of the prompt",
-        });
-
-        if (title) {
-          const content = await vscode.window.showInputBox({
-            placeHolder: "Enter Prompt Content",
-            prompt: "Please enter the content of the prompt",
-          });
-
-          if (content) {
-            promptsProvider.addPrompt(title, content);
-          }
-        }
-      }
-    )
-  );
 
   // 注册编辑 prompt 命令
   context.subscriptions.push(
@@ -119,19 +117,6 @@ export function activate(context: vscode.ExtensionContext) {
         if (confirm === "Yes") {
           promptsProvider.deletePrompt(prompt.id);
         }
-      }
-    )
-  );
-
-  // 注册复制 prompt 命令
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "prompter-by-lakphy.copyPrompt",
-      (prompt: Prompt) => {
-        vscode.env.clipboard.writeText(prompt.content);
-        vscode.window.showInformationMessage(
-          `Copied "${prompt.title}" content to clipboard`
-        );
       }
     )
   );

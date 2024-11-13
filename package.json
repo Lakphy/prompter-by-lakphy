@@ -32,11 +32,6 @@
     },
     "commands": [
       {
-        "command": "prompter-by-lakphy.addPrompt",
-        "title": "New Prompt",
-        "icon": "$(add)"
-      },
-      {
         "command": "prompter-by-lakphy.editPrompt",
         "title": "Edit Prompt",
         "icon": "$(edit)"
@@ -45,11 +40,6 @@
         "command": "prompter-by-lakphy.deletePrompt",
         "title": "Delete Prompt",
         "icon": "$(trash)"
-      },
-      {
-        "command": "prompter-by-lakphy.copyPrompt",
-        "title": "Copy Prompt",
-        "icon": "$(copy)"
       },
       {
         "command": "prompter-by-lakphy.copyAllPrompts",
@@ -75,6 +65,16 @@
         "command": "prompter-by-lakphy.openWorkspacePrompt",
         "title": "Open in Editor",
         "icon": "$(file-code)"
+      },
+      {
+        "command": "prompter-by-lakphy.copyPrompt",
+        "title": "Copy Prompt",
+        "icon": "$(copy)"
+      },
+      {
+        "command": "prompter-by-lakphy.addPrompt",
+        "title": "New Prompt",
+        "icon": "$(add)"
       }
     ],
     "menus": {
@@ -117,13 +117,18 @@
           "group": "inline"
         },
         {
-          "command": "prompter-by-lakphy.copyPrompt",
-          "when": "view == promptsList && viewItem == prompt",
+          "command": "prompter-by-lakphy.openWorkspacePrompt",
+          "when": "view == PromptDomainList && viewItem == domain_workspace_item",
           "group": "inline"
         },
         {
-          "command": "prompter-by-lakphy.openWorkspacePrompt",
-          "when": "view == PromptDomainList && viewItem == domain_workspace_item",
+          "command": "prompter-by-lakphy.copyPrompt",
+          "when": "view == PromptDomainList && (viewItem == domain_workspace_item || viewItem == domain_global_item)",
+          "group": "inline"
+        },
+        {
+          "command": "prompter-by-lakphy.addPrompt",
+          "when": "view == PromptDomainList && (viewItem == domain_workspace || viewItem == domain_global)",
           "group": "inline"
         }
       ]
@@ -160,6 +165,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "uuid": "^11.0.3",
     "yaml": "^2.6.0"
   }
 }
