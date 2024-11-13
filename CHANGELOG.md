@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.0.1
+
+### Patch Changes
+
+- d459b41: add icon
+- 402241c: support multi workspace index
+
 ## 1.0.0
 
 ### Major Changes
