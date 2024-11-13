@@ -4,6 +4,7 @@
   "description": "prompt manage tool",
   "version": "1.0.0",
   "publisher": "lakphy",
+  "icon": "assets/icon.webp",
   "engines": {
     "vscode": "^1.86.0"
   },
