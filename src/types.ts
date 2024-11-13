@@ -15,4 +15,5 @@ export interface PromptDomain {
   title: string;
   path: string;
   children: Prompt[];
+  workspace?: string;
 }

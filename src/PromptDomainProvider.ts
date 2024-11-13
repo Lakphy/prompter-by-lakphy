@@ -47,6 +47,7 @@ export class PromptDomainProvider
         treeItem.contextValue = "domain_workspace";
         treeItem.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
         treeItem.tooltip = (prompt as PromptDomain).path;
+        treeItem.description = (prompt as PromptDomain).workspace || "";
       }
     } else {
       if (!isWorkspaceItem) {
@@ -161,6 +162,7 @@ export class PromptDomainProvider
             id: scopeName,
             title: scopeName,
             path: scopePath,
+            workspace: `${workspaceFolder.name}`,
             children: [
               {
                 id: `${scopeName}-${title}`,
