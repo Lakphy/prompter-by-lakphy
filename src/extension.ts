@@ -73,79 +73,40 @@ export function activate(context: vscode.ExtensionContext) {
       }
     )
   );
-
-  context.subscriptions.push(promptDomainTreeView);
-
-  /** ================================= */
-  // 初始化 prompts 存储
-  const promptsProvider = new PromptsProvider(context.globalState);
-
-  // 注册 TreeView
-  const treeView = vscode.window.createTreeView("promptsList", {
-    treeDataProvider: promptsProvider,
-  });
-
-  // 注册编辑 prompt 命令
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "prompter-by-lakphy.editPrompt",
-      async (prompt: Prompt) => {
-        const content = await vscode.window.showInputBox({
-          value: prompt.content,
-          placeHolder: "Edit Prompt Content",
-          prompt: "Please edit the content of the prompt",
-        });
-
-        if (content !== undefined) {
-          promptsProvider.editPrompt(prompt.id, content);
-        }
-      }
-    )
-  );
-
   // 注册删除 prompt 命令
   context.subscriptions.push(
     vscode.commands.registerCommand(
       "prompter-by-lakphy.deletePrompt",
       async (prompt: Prompt) => {
-        const confirm = await vscode.window.showWarningMessage(
-          `Are you sure you want to delete "${prompt.title}"?`,
-          { modal: true },
-          "Yes"
-        );
-
-        if (confirm === "Yes") {
-          promptsProvider.deletePrompt(prompt.id);
+        const isWorkspaceItem = !!(prompt as Prompt).path; // 是否为工作群内项
+        if (isWorkspaceItem) {
+          promptDomainProvider.deleteWorkspacePrompt(prompt.path, prompt.title);
+        } else {
+          promptDomainProvider.deleteGlobalPrompt(prompt.id);
         }
       }
     )
   );
-
-  // 注册复制所有 prompts 命令
+  // 注册编辑 prompt 命令
   context.subscriptions.push(
-    vscode.commands.registerCommand("prompter-by-lakphy.copyAllPrompts", () => {
-      const prompts = promptsProvider.getPrompts();
-      const promptsText = prompts
-        .map((prompt) => `${prompt.title}:\n${prompt.content}\n`)
-        .join("\n---\n\n");
-      vscode.env.clipboard.writeText(promptsText);
-      vscode.window.showInformationMessage("Copied all prompts to clipboard");
-    })
+    vscode.commands.registerCommand(
+      "prompter-by-lakphy.editPrompt",
+      async (prompt: Prompt) => {
+        promptDomainProvider.editGlobalPrompt(prompt);
+      }
+    )
+  );
+  // 注册创建 Prompt 域命令
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "prompter-by-lakphy.createPromptDomain",
+      async () => {
+        await promptDomainProvider.createWorkspacePromptFold();
+      }
+    )
   );
 
-  context.subscriptions.push(
-    vscode.commands.registerCommand("prompter-by-lakphy.exportPrompts", () => {
-      promptsProvider.exportToClipboard();
-    })
-  );
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand("prompter-by-lakphy.importPrompts", () => {
-      promptsProvider.importFromClipboard();
-    })
-  );
-
-  context.subscriptions.push(treeView);
+  context.subscriptions.push(promptDomainTreeView);
 }
 
 // This method is called when your extension is deactivated

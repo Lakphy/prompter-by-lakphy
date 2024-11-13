@@ -21,6 +21,14 @@ export class PromptDomainProvider
   constructor(private storage: vscode.Memento) {
     // 监听文件保存事件
     vscode.workspace.onDidSaveTextDocument(this.onDocumentSaved, this);
+    // 监听文件删除事件
+    vscode.workspace.onDidDeleteFiles((e) => {
+      this._onDidChangeTreeData.fire();
+    });
+    // 监听文件变更
+    vscode.workspace.onDidChangeWorkspaceFolders(() => {
+      this._onDidChangeTreeData.fire();
+    });
   }
 
   /**
@@ -224,7 +232,7 @@ export class PromptDomainProvider
   addGlobalPrompt(title: string, content: string) {
     const prompts = this.getPromptsFromVSCodeStorage();
     prompts.push({
-      id: Date.now().toString(),
+      id: uuid(),
       title,
       content,
     });
@@ -273,6 +281,93 @@ export class PromptDomainProvider
       vscode.window.showTextDocument(doc);
     } else {
       vscode.window.showErrorMessage("Prompt path is undefined");
+    }
+  }
+
+  /**
+   * 删除工作区内 Prompt
+   */
+  async deleteWorkspacePrompt(path?: string, title?: string) {
+    if (path) {
+      // 弹窗二次确认
+      const confirm = await vscode.window.showInformationMessage(
+        title
+          ? `Are you sure to delete the prompt ${title}?`
+          : `Are you sure to delete this file? ${path}`,
+        {
+          modal: true,
+          detail: `The action will delete your file ${path} forever!`,
+        },
+        "Yes"
+      );
+      if (confirm === "Yes") {
+        await vscode.workspace.fs.delete(vscode.Uri.file(path));
+        this._onDidChangeTreeData.fire();
+      }
+    }
+  }
+
+  /**
+   * 删除全局 Prompt
+   */
+  async deleteGlobalPrompt(id: string) {
+    const prompts = this.getPromptsFromVSCodeStorage();
+    const index = prompts.findIndex((prompt) => prompt.id === id);
+    if (index > -1) {
+      prompts.splice(index, 1);
+      this.saveGlobalPrompts(prompts);
+    }
+  }
+
+  /**
+   * 编辑全局 Prompt
+   */
+  async editGlobalPrompt(prompt: Prompt) {
+    const content = await vscode.window.showInputBox({
+      value: prompt.content,
+      placeHolder: "Edit Prompt Content",
+      prompt: "Please edit the content of the prompt",
+    });
+
+    if (content !== undefined) {
+      const prompts = this.getPromptsFromVSCodeStorage();
+      const id = prompt.id;
+      const index = prompts.findIndex((p) => p.id === id);
+      if (index !== -1) {
+        prompts[index].content = content;
+        this.saveGlobalPrompts(prompts);
+      }
+    }
+  }
+
+  /**
+   * 创建 Prompt 文件夹
+   */
+  async createWorkspacePromptFold() {
+    const workspaceFolders = vscode.workspace.workspaceFolders;
+    if (!workspaceFolders) {
+      vscode.window.showErrorMessage("No workspace folder found");
+      return;
+    }
+    const workspaceFolder = workspaceFolders[0];
+    const folderPath = `${workspaceFolder.uri.fsPath}/.prompts`;
+    try {
+      await vscode.workspace.fs.createDirectory(vscode.Uri.file(folderPath));
+      // 在 promptDomain.path 下创建 任意名称的 .md 文件
+      const fileName = uuid();
+      const name = "New Prompt";
+      const filePath = vscode.Uri.file(`${folderPath}/${fileName}.md`);
+      await vscode.workspace.fs.writeFile(
+        filePath,
+        Buffer.from(getTemplatePrompt(name), "utf8")
+      );
+      this._onDidChangeTreeData.fire();
+      this.openWorkspacePrompt(filePath.fsPath);
+      vscode.window.showInformationMessage(
+        "Prompt folder created successfully"
+      );
+    } catch (e) {
+      vscode.window.showErrorMessage(`Failed to create prompt folder: ${e}`);
     }
   }
 }

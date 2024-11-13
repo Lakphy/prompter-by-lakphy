@@ -21,41 +21,12 @@
     "views": {
       "explorer": [
         {
-          "id": "promptsList",
-          "name": "Prompts"
-        },
-        {
           "id": "PromptDomainList",
           "name": "Prompts Board"
         }
       ]
     },
     "commands": [
-      {
-        "command": "prompter-by-lakphy.editPrompt",
-        "title": "Edit Prompt",
-        "icon": "$(edit)"
-      },
-      {
-        "command": "prompter-by-lakphy.deletePrompt",
-        "title": "Delete Prompt",
-        "icon": "$(trash)"
-      },
-      {
-        "command": "prompter-by-lakphy.copyAllPrompts",
-        "title": "Copy All Prompts",
-        "icon": "$(copy)"
-      },
-      {
-        "command": "prompter-by-lakphy.exportPrompts",
-        "title": "Export All Prompts to Clipboard",
-        "icon": "$(export)"
-      },
-      {
-        "command": "prompter-by-lakphy.importPrompts",
-        "title": "Import Prompts from Clipboard",
-        "icon": "$(import)"
-      },
       {
         "command": "prompter-by-lakphy.refresh",
         "title": "Refresh",
@@ -75,47 +46,37 @@
         "command": "prompter-by-lakphy.addPrompt",
         "title": "New Prompt",
         "icon": "$(add)"
+      },
+      {
+        "command": "prompter-by-lakphy.deletePrompt",
+        "title": "Delete Prompt",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "prompter-by-lakphy.editPrompt",
+        "title": "Edit Prompt",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "prompter-by-lakphy.createPromptDomain",
+        "title": "Create Prompt Domain",
+        "icon": "$(add)"
       }
     ],
     "menus": {
       "view/title": [
         {
-          "command": "prompter-by-lakphy.addPrompt",
-          "when": "view == promptsList",
+          "command": "prompter-by-lakphy.refresh",
+          "when": "view == PromptDomainList",
           "group": "navigation"
         },
         {
-          "command": "prompter-by-lakphy.copyAllPrompts",
-          "when": "view == promptsList",
-          "group": "1_more"
-        },
-        {
-          "command": "prompter-by-lakphy.exportPrompts",
-          "when": "view == promptsList",
-          "group": "1_more"
-        },
-        {
-          "command": "prompter-by-lakphy.importPrompts",
-          "when": "view == promptsList",
-          "group": "1_more"
-        },
-        {
-          "command": "prompter-by-lakphy.refresh",
+          "command": "prompter-by-lakphy.createPromptDomain",
           "when": "view == PromptDomainList",
           "group": "navigation"
         }
       ],
       "view/item/context": [
-        {
-          "command": "prompter-by-lakphy.editPrompt",
-          "when": "view == promptsList && viewItem == prompt",
-          "group": "inline"
-        },
-        {
-          "command": "prompter-by-lakphy.deletePrompt",
-          "when": "view == promptsList && viewItem == prompt",
-          "group": "inline"
-        },
         {
           "command": "prompter-by-lakphy.openWorkspacePrompt",
           "when": "view == PromptDomainList && viewItem == domain_workspace_item",
@@ -129,6 +90,16 @@
         {
           "command": "prompter-by-lakphy.addPrompt",
           "when": "view == PromptDomainList && (viewItem == domain_workspace || viewItem == domain_global)",
+          "group": "inline"
+        },
+        {
+          "command": "prompter-by-lakphy.deletePrompt",
+          "when": "view == PromptDomainList && (viewItem == domain_workspace_item || viewItem == domain_global_item)",
+          "group": "inline"
+        },
+        {
+          "command": "prompter-by-lakphy.editPrompt",
+          "when": "view == PromptDomainList && viewItem == domain_global_item",
           "group": "inline"
         }
       ]
