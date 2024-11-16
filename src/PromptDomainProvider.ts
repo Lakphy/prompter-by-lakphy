@@ -120,7 +120,10 @@ export class PromptDomainProvider
         workspaceFolder,
         "**/.prompts/*.md"
       );
-      const files = await vscode.workspace.findFiles(pattern, null);
+      const files = await vscode.workspace.findFiles(
+        pattern,
+        "**/node_modules/**"
+      );
       const domainHash = new Map<string, PromptDomain>();
       for (const file of files) {
         // 解析文件归属
