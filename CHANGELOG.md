@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.0.2
+
+### Patch Changes
+
+- 6a057a4: 性能优化
+
 ## 1.0.1
 
 ### Patch Changes
