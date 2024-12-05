@@ -375,4 +375,34 @@ export class PromptDomainProvider
       vscode.window.showErrorMessage(`Failed to create prompt folder: ${e}`);
     }
   }
+
+  /**
+   * 处理拖放事件
+   */
+  handleDragAndDrop(event: vscode.TreeDragAndDropEvent<PromptDomain | Prompt>) {
+    const { elements, target } = event;
+    if (target && (target as PromptDomain).children) {
+      const targetDomain = target as PromptDomain;
+      elements.forEach((element) => {
+        if ((element as Prompt).path) {
+          const prompt = element as Prompt;
+          this.movePromptToDomain(prompt, targetDomain);
+        }
+      });
+    }
+  }
+
+  /**
+   * 移动 Prompt 到指定域
+   */
+  async movePromptToDomain(prompt: Prompt, targetDomain: PromptDomain) {
+    if (prompt.path && targetDomain.path) {
+      const newPath = `${targetDomain.path}/.prompts/${prompt.id}.md`;
+      await vscode.workspace.fs.rename(
+        vscode.Uri.file(prompt.path),
+        vscode.Uri.file(newPath)
+      );
+      this._onDidChangeTreeData.fire();
+    }
+  }
 }

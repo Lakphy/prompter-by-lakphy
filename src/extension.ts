@@ -1,11 +1,7 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 import { Prompt, PromptDomain } from "./types";
 import { PromptDomainProvider } from "./PromptDomainProvider";
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
   // 初始化 Prompt 域提供者
   const promptDomainProvider = new PromptDomainProvider(context.globalState);
@@ -36,6 +32,7 @@ export function activate(context: vscode.ExtensionContext) {
       );
     })
   );
+
   // 注册打开 Prompt 域命令
   context.subscriptions.push(
     vscode.commands.registerCommand(
@@ -46,6 +43,7 @@ export function activate(context: vscode.ExtensionContext) {
       }
     )
   );
+
   // 注册复制 prompt 命令
   context.subscriptions.push(
     vscode.commands.registerCommand(
@@ -58,6 +56,7 @@ export function activate(context: vscode.ExtensionContext) {
       }
     )
   );
+
   // 注册添加 prompt 命令
   context.subscriptions.push(
     vscode.commands.registerCommand(
@@ -72,6 +71,7 @@ export function activate(context: vscode.ExtensionContext) {
       }
     )
   );
+
   // 注册删除 prompt 命令
   context.subscriptions.push(
     vscode.commands.registerCommand(
@@ -86,6 +86,7 @@ export function activate(context: vscode.ExtensionContext) {
       }
     )
   );
+
   // 注册编辑 prompt 命令
   context.subscriptions.push(
     vscode.commands.registerCommand(
@@ -95,6 +96,7 @@ export function activate(context: vscode.ExtensionContext) {
       }
     )
   );
+
   // 注册创建 Prompt 域命令
   context.subscriptions.push(
     vscode.commands.registerCommand(
@@ -105,8 +107,29 @@ export function activate(context: vscode.ExtensionContext) {
     )
   );
 
+  // 注册拖入 editor 工作区
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "prompter-by-lakphy.dragToEditor",
+      async (prompt: Prompt) => {
+        const panel = vscode.window.createWebviewPanel(
+          "prompterBoard",
+          "Prompter Board",
+          vscode.ViewColumn.One,
+          {}
+        );
+
+        panel.webview.html = `<html>
+          <body>
+            <h1>${prompt.title}</h1>
+            <p>${prompt.content}</p>
+          </body>
+        </html>`;
+      }
+    )
+  );
+
   context.subscriptions.push(promptDomainTreeView);
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() {}

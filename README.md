@@ -32,6 +32,7 @@ The extension provides the following commands:
 - **Copy All Prompts** (`prompter-by-lakphy.copyAllPrompts`): Copy all prompts to clipboard
 - **Export Prompts** (`prompter-by-lakphy.exportPrompts`): Export all prompts to clipboard
 - **Import Prompts** (`prompter-by-lakphy.importPrompts`): Import prompts from clipboard
+- **Drag to Editor** (`prompter-by-lakphy.dragToEditor`): Drag the prompter board tree view to the editor view
 
 ## Installation
 
@@ -55,3 +56,12 @@ This extension is licensed under the [MIT License](LICENSE).
 ## Change Log
 
 See [CHANGELOG.md](CHANGELOG.md) for detailed release notes.
+
+## Drag-and-Drop Feature
+
+### How to Use
+
+1. Open VS Code
+2. Look for the "Prompts" view in the Explorer sidebar
+3. Drag the "Prompter Board" tree view item to the editor view
+4. The selected prompt will be displayed in a new webview panel in the editor view

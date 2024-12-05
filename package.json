@@ -62,6 +62,11 @@
         "command": "prompter-by-lakphy.createPromptDomain",
         "title": "Create Prompt Domain",
         "icon": "$(add)"
+      },
+      {
+        "command": "prompter-by-lakphy.dragToEditor",
+        "title": "Drag to Editor",
+        "icon": "$(arrow-right)"
       }
     ],
     "menus": {
@@ -101,6 +106,11 @@
         {
           "command": "prompter-by-lakphy.editPrompt",
           "when": "view == PromptDomainList && viewItem == domain_global_item",
+          "group": "inline"
+        },
+        {
+          "command": "prompter-by-lakphy.dragToEditor",
+          "when": "view == PromptDomainList && viewItem == domain_workspace_item",
           "group": "inline"
         }
       ]
